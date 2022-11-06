@@ -1,0 +1,71 @@
+{
+  "name": "real-manager",
+  "productName": "REALcam",
+  "description": "All-in-one REALcam Installer and Manager",
+  "version": "0.0.1",
+  "author": "REALcamera",
+  "private": true,
+  "main": "main/index.js",
+  "scripts": {
+    "dev": "npm run build-electron && electron .",
+    "type": "tsc -p ./renderer/tsconfig.json && tsc -p ./src/tsconfig.json",
+    "build-electron": "tsc -p src",
+    "build-next": "next build renderer && next export renderer",
+    "build-app": "npm run build-next && npm run build-electron",
+    "pack-app": "npm run build-app && electron-builder --dir",
+    "compile": "npm run build-app && electron-builder",
+    "clean": "rimraf dist main renderer/out renderer/.next"
+  },
+  "build": {
+    "appId": "org.realcamera.installer",
+    "copyright": "Copyright © 2022 REALcamera",
+    "asar": true,
+    "files": [
+      "main",
+      "renderer/out"
+    ],
+    "nodeVersion": "current",
+    "portable": {
+      "useZip": true,
+      "requestExecutionLevel": "user"
+    },
+    "win": {
+      "artifactName": "${productName}-Windows-${version}.${ext}",
+      "target": {
+        "target": "portable",
+        "arch": [
+          "ia32"
+        ]
+      }
+    },
+    "mac": {
+      "artifactName": "${productName}-Mac-${version}.${ext}",
+      "category": "public.app-category.productivity",
+      "darkModeSupport": true,
+      "target": {
+        "target": "zip",
+        "arch": [
+          "x64"
+        ]
+      }
+    }
+  },
+  "dependencies": {
+    "app-root-path": "^3.1.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@electron/asar": "^3.2.2",
+    "@types/node": "^18.11.9",
+    "@types/react": "^18.0.25",
+    "@types/react-dom": "^18.0.8",
+    "electron": "^21.2.2",
+    "electron-builder": "^23.6.0",
+    "eslint": "^8.27.0",
+    "eslint-config-next": "^13.0.2",
+    "next": "^13.0.2",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.8.4"
+  }
+}
